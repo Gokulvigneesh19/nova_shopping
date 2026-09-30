@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/* Tailwind v4 resets buttons to cursor: default; restore the pointer for everything clickable. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href],
+  label[for],
+  select,
+  summary,
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+/*
+  Single source of truth for the NovaShop palette.
+  Change a value here and it updates everywhere in the app.
+*/
+:root {
+  --color-primary-purple: #6c3bff;
+  --color-primary-blue: #4f7cff;
+  --color-gradient-start: #7c3aed;
+  --color-gradient-end: #4f46e5;
+
+  --color-background: #ffffff;
+  --color-soft-background: #f7f8fc;
+  --color-card-background: #ffffff;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+
+  --color-border: #e5e7eb;
+  --color-hover-bg: #f3f0ff;
+
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  --brand-gradient: linear-gradient(
+    135deg,
+    var(--color-gradient-start),
+    var(--color-gradient-end)
+  );
+}
+
+@theme inline {
+  --color-primary: var(--color-primary-purple);
+  --color-primary-purple: var(--color-primary-purple);
+  --color-primary-blue: var(--color-primary-blue);
+  --color-gradient-start: var(--color-gradient-start);
+  --color-gradient-end: var(--color-gradient-end);
+
+  --color-background: var(--color-background);
+  --color-soft-background: var(--color-soft-background);
+  --color-card-background: var(--color-card-background);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+
+  --color-border: var(--color-border);
+  --color-hover-bg: var(--color-hover-bg);
+
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-error: var(--color-error);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --animate-fade-in: fade-in 0.6s ease-out both;
+  --animate-fade-in-up: fade-in-up 0.7s ease-out both;
+  --animate-fade-in-down: fade-in-down 0.7s ease-out both;
+  --animate-scale-in: scale-in 0.5s ease-out both;
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-bounce-once: bounce-once 0.5s ease;
+  --animate-marquee: marquee 25s linear infinite;
+  --animate-pulse-ring: pulse-ring 1.6s ease-out infinite;
+  --animate-cart-qty-pop: cart-qty-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  --animate-trash-open: trash-open 0.5s ease-in-out;
+  --animate-cart-row-exit: cart-row-exit 0.3s ease-in 0.25s forwards;
+  --animate-celebrate-pop: celebrate-pop 2.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes bounce-once {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.35);
+  }
+  60% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(108 59 255 / 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgb(108 59 255 / 0);
+  }
+}
+
+@keyframes cart-qty-pop {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: translate(0, -3px) scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-18px, 8px) scale(0.1);
+    opacity: 0;
+  }
+}
+
+@keyframes trash-open {
+  0%,
+  15% {
+    transform: rotate(0deg) scale(1);
+  }
+  35% {
+    transform: rotate(-18deg) scale(1.1);
+  }
+  55% {
+    transform: rotate(14deg) scale(1.18);
+  }
+  75% {
+    transform: rotate(-6deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* Confetti piece: falls from above the viewport while drifting and spinning (vars set per piece). */
+@keyframes confetti-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--confetti-drift, 0px), 105vh, 0) rotate(var(--confetti-spin, 720deg));
+    opacity: 0;
+  }
+}
+
+/* "You saved" badge: springs in, holds, then fades up. */
+@keyframes celebrate-pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 1;
+  }
+  25%,
+  80% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -60%) scale(0.95);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece {
+    display: none;
+  }
+}
+
+@keyframes cart-row-exit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--color-primary-purple);
+  color: #fff;
+}
+
+/* thin brand-colored scrollbar for horizontal scrollers (e.g. filters, thumbnails) */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-purple);
+}
