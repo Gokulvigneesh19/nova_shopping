@@ -90,7 +90,7 @@ export const customers: AdminCustomer[] = [
 ];
 
 // Whole-rupee amounts for admin stats/tables; see lib/utils/currency.
-export const formatCurrency = (n: number) => formatMoney(n, { decimals: 0 });
+export const formatCurrency = (n: number | undefined) => formatMoney(n, { decimals: 0 });
 
 export const formatDate = (iso: string) =>
   new Date(iso.includes("T") ? iso : iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
