@@ -22,7 +22,7 @@ export function CategoryFormView({ categoryId }: { categoryId?: string }) {
   const [imageError, setImageError] = useState<string | null>(null);
 
   const { data: category, isLoading, isError } = useCategoriesbyID(categoryId ?? "");
-  const existingImage = category?.image ? process.env.NEXT_PUBLIC_IMAGE_URL + category.image : undefined;
+  const existingImage = category?.image ?  category.image : undefined;
   const createMutation = useCreateCategory();
   const updateMutation = useUpdateCategory();
   const submitting = createMutation.isPending || updateMutation.isPending;

@@ -893,7 +893,7 @@ export function CheckoutView() {
                     <li key={item.id} className="flex items-center gap-3 text-sm">
                       {/* eslint-disable-next-line @next/next/no-img-element -- API-hosted image */}
                       <img
-                        src={process.env.NEXT_PUBLIC_IMAGE_URL + item.image}
+                        src={item.image}
                         alt={item.product_name}
                         className="h-14 w-14 shrink-0 rounded-xl border border-border bg-soft-background object-cover"
                       />

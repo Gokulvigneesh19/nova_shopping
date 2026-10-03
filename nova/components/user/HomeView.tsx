@@ -10,6 +10,7 @@ import { useFilteredProducts } from "@/features/products/hooks/useFilteredProduc
 import { CatalogCategory, useShopCatalog } from "@/features/products/hooks/useShopCatalog";
 import useShopFilterStore from "@/lib/globalstore/shopFilter.store";
 import { formatMoney } from "@/lib/utils/currency";
+import { useCategories } from "@/features/categories/hooks/useCategories";
 
 const PAGE_SIZE = 12;
 
@@ -22,32 +23,32 @@ function CategoryTile({
   onSelect,
   index,
 }: {
-  category: CatalogCategory | null;
+  category?: Pick<CatalogCategory, "name" | "image"> | null;
   active: boolean;
   onSelect: (name: string | null) => void;
   index: number;
 }) {
-  const name = category?.name ?? "All";
+  console.log("category", category);
   return (
     <button
       type="button"
       onClick={() => onSelect(category?.name ?? null)}
       aria-pressed={active}
-      title={category ? `${name} (${category.count})` : name}
+      title={category?.name ?? "All Products"}
       style={{ animationDelay: `${index * 40}ms` }}
       className="group flex w-16 shrink-0 snap-start animate-fade-in-up flex-col items-center gap-1.5 opacity-0 [animation-fill-mode:forwards] sm:w-18"
     >
       <span
         className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border transition-all duration-300 ease-brand group-hover:-translate-y-0.5 sm:h-14 sm:w-14 ${active
-            ? "border-transparent ring-2 ring-primary ring-offset-2 ring-offset-background"
-            : "border-border group-hover:border-primary/40 group-hover:shadow-md group-hover:shadow-primary/10"
+          ? "border-transparent ring-2 ring-primary ring-offset-2 ring-offset-background"
+          : "border-border group-hover:border-primary/40 group-hover:shadow-md group-hover:shadow-primary/10"
           } ${category?.image ? "bg-soft-background" : "bg-linear-to-br from-gradient-start to-gradient-end text-white"}`}
       >
         {category?.image ? (
           // eslint-disable-next-line @next/next/no-img-element -- API-hosted image, no remotePatterns configured
-          <img src={process.env.NEXT_PUBLIC_IMAGE_URL +  category.image} alt="" className="h-full w-full object-cover" />
+          <img src={ category.image} alt="" className="h-full w-full object-cover" />
         ) : category ? (
-          <span className="text-base font-bold">{name[0]?.toUpperCase()}</span>
+          <span className="text-base font-bold">{category.name?.toUpperCase()}</span>
         ) : (
           <LayoutGrid className="h-5 w-5" />
         )}
@@ -55,7 +56,7 @@ function CategoryTile({
       <span
         className={`w-full truncate text-center text-[11px] font-semibold transition-colors ${active ? "text-primary" : "text-text-secondary group-hover:text-primary"}`}
       >
-        {name}
+        {category?.name}
       </span>
     </button>
   );
@@ -65,7 +66,8 @@ export function HomeView() {
   const { search, category, setCategory, maxPrice, setMaxPrice, sort, setSort, setSearch, clearFilters } =
     useShopFilterStore();
   const { filtered, isFetching, debouncedSearch, debouncedMaxPrice } = useFilteredProducts();
-  const { categories, isLoading } = useShopCatalog();
+  const { data: categories, isLoading } = useCategories();
+  console.log("categories", categories);
 
   // The API ignores `page` and doesn't return a total, so paging happens client-side.
   // Any filter/sort/search change resets to page 1.
@@ -98,22 +100,38 @@ export function HomeView() {
           Shop by Category
         </h2>
         <div className="-mx-4 mt-2 flex snap-x gap-2 overflow-x-auto px-4 py-2 scrollbar-none sm:mx-0 sm:gap-3 sm:px-0">
-          {isLoading
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <span key={i} className="flex w-16 shrink-0 flex-col items-center gap-1.5 sm:w-18">
-                  <span className="h-12 w-12 animate-pulse rounded-full bg-hover-bg sm:h-14 sm:w-14" />
-                  <span className="h-2.5 w-10 animate-pulse rounded bg-hover-bg" />
-                </span>
-              ))
-            : [null, ...categories].map((cat, i) => (
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <span
+                key={i}
+                className="flex w-16 shrink-0 flex-col items-center gap-1.5 sm:w-18"
+              >
+                <span className="h-12 w-12 animate-pulse rounded-full bg-hover-bg sm:h-14 sm:w-14" />
+                <span className="h-2.5 w-10 animate-pulse rounded bg-hover-bg" />
+              </span>
+            ))
+          ) : (
+            <>
+              {/* All Category - Always First */}
+              <CategoryTile
+                key="all"
+                index={0}
+                active={category === null}
+                onSelect={selectCategory}
+              />
+
+              {/* Other Categories */}
+              {categories?.map((cat, i) => (
                 <CategoryTile
-                  key={cat?.name ?? "all"}
+                  key={cat?.name ?? `category-${i}`}
                   category={cat}
-                  index={i}
-                  active={category === (cat?.name ?? null)}
+                  index={i + 1}
+                  active={category === cat?.name}
                   onSelect={selectCategory}
                 />
               ))}
+            </>
+          )}
         </div>
       </section>
 

@@ -65,7 +65,7 @@ export function CategoriesView() {
                   <div className="relative aspect-video overflow-hidden bg-soft-background">
                     {c.image ? (
                       // eslint-disable-next-line @next/next/no-img-element -- API-hosted image, no remotePatterns configured
-                      <img src={process.env.NEXT_PUBLIC_IMAGE_URL + c.image} alt={c.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <img src={c.image} alt={c.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     ) : (
                       <div className="flex h-full items-center justify-center text-text-muted">
                         <ImageOff className="h-8 w-8" />

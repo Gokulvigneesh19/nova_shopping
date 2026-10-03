@@ -202,7 +202,7 @@ export function CartView() {
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <img
-                          src={process.env.NEXT_PUBLIC_IMAGE_URL + item.image}
+                          src={ item.image}
                           alt={item.product_name}
                           className="h-14 w-14 shrink-0 rounded-xl bg-soft-background object-cover"
                         />

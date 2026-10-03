@@ -14,7 +14,7 @@ export const canCancelOrder = canPayOrder;
 
 // Order item images may be absolute URLs or paths relative to the media host (like cart images).
 export const orderImageSrc = (image?: string | null) =>
-  !image ? "" : /^https?:\/\//.test(image) ? image : `${process.env.NEXT_PUBLIC_IMAGE_URL ?? ""}${image}`;
+  !image ? "" : /^https?:\/\//.test(image) ? image : `${image}`;
 
 // First value that parses to a real number, or null.
 const firstNumber = (...values: unknown[]) => {
